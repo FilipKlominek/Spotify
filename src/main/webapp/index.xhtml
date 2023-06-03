@@ -3,26 +3,157 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<link rel="stylesheet" href="styles.css"/>
+
 <h:body>
     <h1>Špotify</h1>
-    <h2>Artists</h2>
-    <ul>
+    <h2>View</h2>
+    <h3>Artists</h3>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>artist name</th>
+            <th>description</th>
+            <th>list of albums</th>
+        </tr>
         <ui:repeat value="#{spotifyBean.artists}" var="artist">
-            <li>
-                #{spotifyBean.test}
-                <b>#{artist.name}</b>
-                <b>#{artist.name}</b>
-                #{artist.albums}
-                #{artist.description}
-            </li>
+            <tr>
+                <td><b>#{artist.id}</b></td>
+                <td><u>#{artist.name}</u></td>
+                <td style="color: gray">#{artist.description}</td>
+                <td>
+                    <ui:repeat value="#{artist.albums}" var="album">
+                        <span style="color: yellowgreen">#{album.id}</span>
+                        <span style="color: green">#{album.name}</span>
+                    </ui:repeat>
+                </td>
+            </tr>
         </ui:repeat>
-    </ul>
-
-    #{spotifyBean.test}
+    </table>
+    <h3>Albums</h3>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>description</th>
+            <th>release date</th>
+            <th>artist</th>
+        </tr>
+        <ui:repeat value="#{spotifyBean.albums}" var="album">
+            <tr>
+                <td><b>#{album.id}</b></td>
+                <td><u>#{album.name}</u></td>
+                <td style="color: gray">#{album.description}</td>
+                <td style="color: dodgerblue">#{album.releaseDate}</td>
+                <td>
+                    <span style="color: red">#{album.artist.id}</span>
+                    <span style="color: darkred">#{album.artist.name}</span>
+                </td>
+            </tr>
+        </ui:repeat>
+    </table>
+    <h3>Songs</h3>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>description</th>
+            <th>release date</th>
+            <th>album</th>
+        </tr>
+        <ui:repeat value="#{spotifyBean.songs}" var="song">
+            <tr>
+                <td><b>#{song.id}</b></td>
+                <td><u>#{song.name}</u></td>
+                <td style="color: gray">#{song.description}</td>
+                <td style="color: dodgerblue">#{song.releaseDate}</td>
+                <td>
+                    <span style="color: red">#{song.album.id}</span>
+                    <span style="color: darkred">#{song.album.name}</span>
+                </td>
+            </tr>
+        </ui:repeat>
+    </table>
+    <h2>Create</h2>
+    <h3>Artist</h3>
+    <h:form>
+        name:
+        <h:inputText value="#{spotifyBean.artistName}"/>
+        description:
+        <h:inputText value="#{spotifyBean.artistDescription}"/>
+        <h:commandButton type="submit" value="Add" action="#{spotifyBean.addArtist()}"/>
+    </h:form>
+    <h3>Album</h3>
+    <h:form>
+        name:
+        <h:inputText value="#{spotifyBean.albumName}"/>
+        description:
+        <h:inputText value="#{spotifyBean.albumDescription}"/>
+        artist:
+        <h:inputText value="#{spotifyBean.albumArtist}"/>
+        <h:commandButton type="submit" value="Add" action="#{spotifyBean.addAlbum()}"/>
+    </h:form>
+    <h3>Song</h3>
+    <h:form>
+        name:
+        <h:inputText value="#{spotifyBean.songName}"/>
+        description:
+        <h:inputText value="#{spotifyBean.songDescription}"/>
+        album:
+        <h:inputText value="#{spotifyBean.songAlbum}"/>
+        <h:commandButton type="submit" value="Add" action="#{spotifyBean.addSong()}"/>
+    </h:form>
+    <h2>Edit</h2>
+    <h3>Artist</h3>
+    <h:form>
+        id:
+        <h:inputText value="#{spotifyBean.artistId}"/>
+        name:
+        <h:inputText value="#{spotifyBean.artistName}"/>
+        description:
+        <h:inputText value="#{spotifyBean.artistDescription}"/>
+        <h:commandButton type="submit" value="Done" action="#{spotifyBean.editArtist()}"/>
+    </h:form>
+    <h3>Album</h3>
+    <h:form>
+        id:
+        <h:inputText value="#{spotifyBean.albumId}"/>
+        name:
+        <h:inputText value="#{spotifyBean.albumName}"/>
+        description:
+        <h:inputText value="#{spotifyBean.albumDescription}"/>
+        <h:commandButton type="submit" value="Done" action="#{spotifyBean.editAlbum()}"/>
+    </h:form>
+    <h3>Song</h3>
+    <h:form>
+        id:
+        <h:inputText value="#{spotifyBean.songId}"/>
+        name:
+        <h:inputText value="#{spotifyBean.songName}"/>
+        description:
+        <h:inputText value="#{spotifyBean.songDescription}"/>
+        <h:commandButton type="submit" value="Done" action="#{spotifyBean.editSong()}"/>
+    </h:form>
+    <h2>Remove</h2>
+    <h3>Artist</h3>
+    <h:form>
+        id:
+        <h:inputText value="#{spotifyBean.artistId}"/>
+        <h:commandButton type="submit" value="Remove" action="#{spotifyBean.removeArtist()}"/>
+    </h:form>
+    <h3>Album</h3>
+    <h:form>
+        id:
+        <h:inputText value="#{spotifyBean.albumId}"/>
+        <h:commandButton type="submit" value="Remove" action="#{spotifyBean.removeAlbum()}"/>
+    </h:form>
+    <h3>Song</h3>
+    <h:form>
+        id:
+        <h:inputText value="#{spotifyBean.songId}"/>
+        <h:commandButton type="submit" value="Remove" action="#{spotifyBean.removeSong()}"/>
+    </h:form>
 </h:body>
 </html>
